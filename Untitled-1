@@ -1,0 +1,154 @@
+ /*(function(){
+                let div = document.querySelectorAll('.block')[1];
+                OffsetLeft = parseInt(div.style.left);
+                init_left_value = OffsetLeft
+
+
+                let div2 = document.querySelectorAll('.block')[2];
+                OffsetLeft2 = parseInt(div2.style.left);
+                init_left_value2 = OffsetLeft2
+
+                OffsetTop = 0;
+                
+                function move(div){
+                    
+                    div.style.backgroundColor="red";
+                    if((OffsetTop <= parseInt(div.style.height)+1) & (OffsetLeft < init_left_value + 15)){
+                        OffsetTop += 1 ;
+                    }
+                    div.style.top = OffsetTop + "px"; 
+
+                    div.style.left = OffsetLeft +'px';
+                    if ((OffsetTop > parseInt(div.style.height)+1) & OffsetLeft < init_left_value + 15){
+                        OffsetLeft += 1
+                    }
+                    console.log("OffsetTop:",OffsetTop)
+                    console.log("OffsetLeft: ",OffsetLeft)
+
+                    if( (OffsetTop > 0 ) & (OffsetLeft > init_left_value + 14)){
+                        div.style.top = OffsetTop + "px";
+                        OffsetTop -= 1;
+                    }
+
+                    if((OffsetTop === 0 ) & (OffsetLeft > init_left_value + 14)){
+                        clearInterval(timer);
+                    }                
+                }
+                
+                
+                
+
+                let timer = setInterval(() => {
+                    move(div2,OffsetLeft2,init_left_value2);
+                    //move(div2);
+
+                    //leftMove();
+                    //topMove();
+                },50);
+             
+            })()
+            */
+
+          (function(){
+                
+                function exchange(div1,div2,index){
+                    //变量设置
+                    let OffsetLeft1 = parseInt(div1.style.left);
+                    let init_left_value1 = OffsetLeft1;
+                    let OffsetTop1 = 0;
+
+                    let OffsetLeft2 = parseInt(div2.style.left);
+                    let init_left_value2 = OffsetLeft2;
+                    let OffsetTop2 = 0;
+
+                    // 设置动画
+                    let timer = setInterval(() => {
+                        
+                        div1.style.backgroundColor="red";
+                        // 向下移动
+                        
+                        if((OffsetTop1 !== parseInt(div1.style.height)) & (OffsetLeft1 !== OffsetLeft2)){
+                            OffsetTop1 += 1 ;
+                            div1.style.top = OffsetTop1 + "px"; 
+                        }
+                        // 向右移动
+                        console.log(OffsetLeft1)
+                        if ((OffsetTop1 === parseInt(div1.style.height)) & OffsetLeft1 !==  init_left_value2){
+                            OffsetLeft1 += 1
+                            div1.style.left = OffsetLeft1 +'px';
+                        }
+                      
+                        // 向上移动
+                        if((OffsetTop1 !== 0 ) & (OffsetLeft1 === init_left_value2)){
+                            div1.style.top = "";
+                        }
+                        let height = parseInt(div2.style.height);
+
+                        if((OffsetTop2 !== height)){
+                            div2.style.top = OffsetTop2 + "px";
+                            OffsetTop2 += 1;
+                        }
+                        if ((OffsetLeft2 !== init_left_value1) & (OffsetTop2 === height)){
+                            OffsetLeft2 -= 1;
+                            div2.style.left = OffsetLeft2 +'px';
+                        }
+                        if((OffsetTop2 !== 0) & OffsetLeft2 === init_left_value1){
+                            div2.style.top = "";
+
+                        }
+                        if ((OffsetLeft1 === init_left_value1) & (OffsetLeft2 === init_left_value1) & (OffsetTop1=== 0) & (OffsetTop2 === 0)){
+                            clearInterval(timer);
+                            div1.style.backgroundColor="";
+                        }
+/*
+                        //div2 向上移动
+                        let height = parseInt(div2.style.height);
+
+                        if((OffsetTop2 !== -height)){
+                            div2.style.top = OffsetTop2 + "px";
+                            OffsetTop2 -= 1;
+                        }
+                        // div2向左移动
+                        //div2left = init_left_value2 - 15 * index 
+                        
+                        if ((OffsetLeft2 !== init_left_value1) & (OffsetTop2 === -height)){
+                            OffsetLeft2 -= 1;
+                            div2.style.left = OffsetLeft2 +'px';
+                        }
+
+                        //div2 向下移动
+                        if ((OffsetLeft2 === init_left_value1) & (OffsetTop2 != 0)){
+                            OffsetTop2 += 2;
+                            div2.style.top = OffsetTop2 + "px";
+                        }
+                        if((OffsetTop1 === 0 ) & (OffsetLeft1 === OffsetLeft2) & (OffsetLeft2 === OffsetLeft1) & (OffsetTop2 === 0)){
+                            clearInterval(timer);
+                            
+
+                        }
+*/
+                    },100)
+
+
+
+                }
+                //let div1 = document.querySelectorAll('.block')[1];
+                //let div2 = document.querySelectorAll('.block')[4];
+                //exchange(div1,div2,3);
+                function bubling(){
+                    let blocks = document.querySelectorAll('.block');
+                    let i = 0;
+                    let j  = i + 1;
+                    while(j < blocks.lenght) {
+                        if (blocks[i].style.height > blocks[j].style.height ){
+                            exchange(blocks[i],blocks[j],j-i)
+                            j++ 
+                        }else{
+                            i++;
+                            continue;
+                        }
+                        
+                    }
+                }
+                bubling()
+            })()

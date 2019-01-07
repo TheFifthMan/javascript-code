@@ -7,19 +7,20 @@
                 height:100px;
                 background-color:yellow;
                 position: absolute;
-                left:0;
-                top:0;
+                
 
             }
             .block{
                 width: 10px;
                 background-color: black;
-                position:relative;
+                position:absolute;
             }
             #queue-data1,#queue-data2{
                 display:flex;
                 align-items:flex-end;
-                margin-top:20px;                
+                margin-top:20px;     
+                position:relative;    
+                top: 100px;       
             }
         </style>
     </head>
@@ -57,63 +58,85 @@
         </div>
         <div id="queue-data2">
             <div class="block" style="height: 15px; left: 0px;"></div>
-            <div class="block" style="height: 12px; left: 5px;"></div>
-            <div class="block" style="height: 90px; left: 10px;"></div>
-            <div class="block" style="height: 26px; left: 15px;"></div>
-            <div class="block" style="height: 69px; left: 20px;"></div>
-            <div class="block" style="height: 38px; left: 25px;"></div>
-            <div class="block" style="height: 34px; left: 30px;"></div>
-            <div class="block" style="height: 19px; left: 35px;"></div>
+            <div class="block" style="height: 12px; left: 20px;"></div>
+            <div class="block" style="height: 90px; left: 40px;"></div>
+            <div class="block" style="height: 26px; left: 60px;"></div>
+            <div class="block" style="height: 69px; left: 80px;"></div>
+            <div class="block" style="height: 38px; left: 100px;"></div>
+            <div class="block" style="height: 34px; left: 120px;"></div>
+            <div class="block" style="height: 19px; left: 140px;"></div>
         </div>
         <script>
             (function(){
-                let div = document.querySelectorAll('.block')[1];
-                OffsetLeft = parseInt(div.style.left);
-                init_left_value = OffsetLeft
-
-
-                let div2 = document.querySelectorAll('.block')[2];
-                OffsetLeft2 = parseInt(div2.style.left);
-                init_left_value2 = OffsetLeft2
-
-                OffsetTop = 0;
                 
-                function move(div){
-                    
-                    div.style.backgroundColor="red";
-                    if((OffsetTop <= parseInt(div.style.height)+1) & (OffsetLeft < init_left_value + 15)){
-                        OffsetTop += 1 ;
-                    }
-                    div.style.top = OffsetTop + "px"; 
+                function exchange(div1,div2){
+                    //变量设置
+                    let OffsetLeft1 = parseInt(div1.style.left);
+                    let init_left_value1 = OffsetLeft1;
+                    let OffsetTop1 = 0;
 
-                    div.style.left = OffsetLeft +'px';
-                    if ((OffsetTop > parseInt(div.style.height)+1) & OffsetLeft < init_left_value + 15){
-                        OffsetLeft += 1
-                    }
-                    console.log("OffsetTop:",OffsetTop)
-                    console.log("OffsetLeft: ",OffsetLeft)
+                    let OffsetLeft2 = parseInt(div2.style.left);
+                    let init_left_value2 = OffsetLeft2;
+                    let OffsetTop2 = 0;
 
-                    if( (OffsetTop > 0 ) & (OffsetLeft > init_left_value + 14)){
-                        div.style.top = OffsetTop + "px";
-                        OffsetTop -= 1;
-                    }
+                    // 设置动画
+                    let timer = setInterval(() => {
+                        
+                        div1.style.backgroundColor="red";
+                        // 向下移动
+                        
+                        if((OffsetTop1 !== parseInt(div1.style.height)) & (OffsetLeft1 !== OffsetLeft2)){
+                            OffsetTop1 += 1 ;
+                            div1.style.top = OffsetTop1 + "px"; 
+                        }
+                        // 向右移动
+                        console.log(OffsetLeft1)
+                        if ((OffsetTop1 === parseInt(div1.style.height)) & OffsetLeft1 !==  init_left_value2){
+                            OffsetLeft1 += 1
+                            div1.style.left = OffsetLeft1 +'px';
+                        }
+                      
+                        // 向上移动
+                        if((OffsetTop1 !== 0 ) & (OffsetLeft1 === init_left_value2)){
+                            div1.style.top = "";
+                        }
+                        let height = parseInt(div2.style.height);
 
-                    if((OffsetTop === 0 ) & (OffsetLeft > init_left_value + 14)){
-                        clearInterval(timer);
-                    }                
+                        if((OffsetTop2 !== height)){
+                            div2.style.top = OffsetTop2 + "px";
+                            OffsetTop2 += 1;
+                        }
+                        if ((OffsetLeft2 !== init_left_value1) & (OffsetTop2 === height)){
+                            OffsetLeft2 -= 1;
+                            div2.style.left = OffsetLeft2 +'px';
+                        }
+                        if((OffsetTop2 !== 0) & OffsetLeft2 === init_left_value1){
+                            div2.style.top = "";
+
+                        }
+                        if ((OffsetLeft1 === init_left_value1) & (OffsetLeft2 === init_left_value1) & (OffsetTop1=== 0) & (OffsetTop2 === 0)){
+                            clearInterval(timer);
+                            div1.style.backgroundColor="";
+                        }
+
+                    },100)
+
+
+
                 }
-                
-                
-                
+                let div1 = document.querySelectorAll('.block')[1];
+                let div2 = document.querySelectorAll('.block')[2];
+                let div3 = document.querySelectorAll('.block')[3];
+                let div4 = document.querySelectorAll('.block')[4];
+                let div5 = document.querySelectorAll('.block')[5];
+                let div6 = document.querySelectorAll('.block')[6];
+                let div7 = document.querySelectorAll('.block')[7];
 
-                let timer = setInterval(() => {
-                    move(div2,OffsetLeft2,init_left_value2);
-                    //move(div2);
+                exchange(div1,div2);
+               
 
-                    //leftMove();
-                    //topMove();
-                },50);
-             
+                
+               
             })()
         </script>
     </body>
