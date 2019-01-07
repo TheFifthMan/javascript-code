@@ -67,36 +67,53 @@
         </div>
         <script>
             (function(){
-                let div = document.querySelectorAll('.block')[2];
+                let div = document.querySelectorAll('.block')[1];
                 OffsetLeft = parseInt(div.style.left);
+                init_left_value = OffsetLeft
+
+
+                let div2 = document.querySelectorAll('.block')[2];
+                OffsetLeft2 = parseInt(div2.style.left);
+                init_left_value2 = OffsetLeft2
+
                 OffsetTop = 0;
                 
-                function move(){
+                function move(div){
                     
-                    //div.style.top = OffsetTop + "px";
-
                     div.style.backgroundColor="red";
-                    OffsetTop += parseInt(div.style.height)+15 ;
-                    div.style.top = OffsetTop + "px";                 
-                    
-                }
-                function leftMove(){
+                    if((OffsetTop <= parseInt(div.style.height)+1) & (OffsetLeft < init_left_value + 15)){
+                        OffsetTop += 1 ;
+                    }
+                    div.style.top = OffsetTop + "px"; 
+
                     div.style.left = OffsetLeft +'px';
-                    OffsetLeft += 15;   
+                    if ((OffsetTop > parseInt(div.style.height)+1) & OffsetLeft < init_left_value + 15){
+                        OffsetLeft += 1
+                    }
+                    console.log("OffsetTop:",OffsetTop)
+                    console.log("OffsetLeft: ",OffsetLeft)
+
+                    if( (OffsetTop > 0 ) & (OffsetLeft > init_left_value + 14)){
+                        div.style.top = OffsetTop + "px";
+                        OffsetTop -= 1;
+                    }
+
+                    if((OffsetTop === 0 ) & (OffsetLeft > init_left_value + 14)){
+                        clearInterval(timer);
+                    }                
                 }
-                function topMove(){
-                    OffsetTop -= parseInt(div.style.height)+15 ;
-                    div.style.top = OffsetTop + "px";
-                }
+                
+                
+                
+
                 let timer = setInterval(() => {
-                    move(2);
-                },4999);
-                let timer1 = setInterval(() => {
-                    leftMove(2);
-                },4998);
-                let timer2 = setInterval(() => {
-                    topMove(2);
-                },5000);
+                    move(div2,OffsetLeft2,init_left_value2);
+                    //move(div2);
+
+                    //leftMove();
+                    //topMove();
+                },50);
+             
             })()
         </script>
     </body>
