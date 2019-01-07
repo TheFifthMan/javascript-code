@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <title>lesson5</title>
+        <style>
+            #test{
+                width:100px;
+                height:100px;
+                background-color:yellow;
+                position: absolute;
+                left:0;
+                top:0;
+
+            }
+            .block{
+                width: 10px;
+                background-color: black;
+                position:relative;
+            }
+            #queue-data1,#queue-data2{
+                display:flex;
+                align-items:flex-end;
+                margin-top:20px;                
+            }
+        </style>
+    </head>
+    <body>
+        <!--
+        <div id="test"></div>
+        
+        <script>
+            //animation 简单例子
+            let test = document.getElementById('test');
+            let offset = 0;
+            function move(){
+                test.style.left = offset + "px";
+                offset += 50;
+                if (offset > 1000){
+                    offset = 0;
+                }
+            }
+            //要把函数独立出来，这样每次才会去执行这个函数，重新赋值
+            let timer = setInterval(move,1000)
+
+
+        </script>
+        -->
+        <div id="queue1">
+            <h3>第一种方式： </h3>
+            <input id='aqi-data' type='text' alt='input'/> 
+            <button id='left-in'>左侧入</button>
+            <button id='left-out'>左侧出</button>
+            <button id='right-in'>右侧入</button>
+            <button id='right-out'>右侧出</button>
+            <button id='sorted'>排序</button>
+        </div>
+        <div id="queue-data1">
+        </div>
+        <div id="queue-data2">
+            <div class="block" style="height: 15px; left: 0px;"></div>
+            <div class="block" style="height: 12px; left: 5px;"></div>
+            <div class="block" style="height: 90px; left: 10px;"></div>
+            <div class="block" style="height: 26px; left: 15px;"></div>
+            <div class="block" style="height: 69px; left: 20px;"></div>
+            <div class="block" style="height: 38px; left: 25px;"></div>
+            <div class="block" style="height: 34px; left: 30px;"></div>
+            <div class="block" style="height: 19px; left: 35px;"></div>
+        </div>
+        <script>
+            (function(){
+                let div = document.querySelectorAll('.block')[2];
+                OffsetLeft = parseInt(div.style.left);
+                OffsetTop = 0;
+                
+                function move(){
+                    
+                    //div.style.top = OffsetTop + "px";
+
+                    div.style.backgroundColor="red";
+                    OffsetTop += parseInt(div.style.height)+15 ;
+                    div.style.top = OffsetTop + "px";                 
+                    
+                }
+                function leftMove(){
+                    div.style.left = OffsetLeft +'px';
+                    OffsetLeft += 15;   
+                }
+                function topMove(){
+                    OffsetTop -= parseInt(div.style.height)+15 ;
+                    div.style.top = OffsetTop + "px";
+                }
+                let timer = setInterval(() => {
+                    move(2);
+                },4999);
+                let timer1 = setInterval(() => {
+                    leftMove(2);
+                },4998);
+                let timer2 = setInterval(() => {
+                    topMove(2);
+                },5000);
+            })()
+        </script>
+    </body>
+</html>

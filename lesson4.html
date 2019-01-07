@@ -1,0 +1,168 @@
+<html>
+    <head>
+    <meta charset='utf-8'>
+    <title>lesson 04</title>
+    <style>
+        #queue-data1,
+        #queue-data2{
+            display:flex;
+        }
+        .block {
+            border:1px solid black;
+
+            height:20px;
+            padding:2px;
+            margin:1px;
+            text-align:center;
+        }
+        #queue2{
+            margin-top:100px;
+        }
+    </style>
+    </head>
+    <body>
+    <div id="requirements">
+        <p>
+        模拟一个队列，队列的每个元素是一个数字，初始队列为空,有一个input输入框，以及4个操作按钮
+        </p>
+        <ul>
+            <li>1. 点击"左侧入"，将input中输入的数字从左侧插入队列中；</li>
+            <li>2. 点击"右侧入"，将input中输入的数字从右侧插入队列中；</li>
+            <li>3. 点击"左侧出"，读取并删除队列左侧第一个元素，并弹窗显示元素中数值；</li>
+            <li>4. 点击"右侧出"，读取并删除队列又侧第一个元素，并弹窗显示元素中数值；</li>
+            <li>5. 点击队列中任何一个元素，则该元素会被从队列中删除</li>
+        </ul>
+    </div>
+    <div id="queue1">
+        <h3>第一种方式： </h3>
+        <input id='aqi-data' type='text' alt='input'/> 
+        <button id='left-in'>左侧入</button>
+        <button id='left-out'>左侧出</button>
+        <button id='right-in'>右侧入</button>
+        <button id='right-out'>右侧出</button>
+    </div>
+    <div id="queue-data1">
+    </div>
+
+    <div id="queue2">
+        <h3>第二种方式： </h3>    
+        <input id='aqi-data2' type='text' alt='input'/> 
+        <button id='left-in2'>左侧入</button>
+        <button id='left-out2'>左侧出</button>
+        <button id='right-in2'>右侧入</button>
+        <button id='right-out2'>右侧出</button>
+    </div>
+    <div id="queue-data2">
+    </div>
+    <script>
+        (function(){
+            /**
+            * 第一种方法：
+            * 将数据存入一个数组
+            * 再渲染数组的DOM模型
+            * 第二种方法：
+            * 直接操作DOM节点
+            */
+            //第一种方法
+            function render(data){
+                let show = document.querySelector('#queue-data1');
+                show.innerHTML = '';
+                data.forEach((elem) => {
+                    let div = document.createElement('div');
+                    div.innerText = elem;
+                    div.className = "block";
+                    show.appendChild(div);
+                })
+            }
+            function btnHandle(){
+                let leftIn = document.querySelector('#left-in');
+                let leftOut = document.querySelector('#left-out');
+                let rightIn = document.querySelector('#right-in');
+                let rightOut = document.querySelector('#right-out');
+                let datas = [];
+
+                leftIn.addEventListener('click',() => {
+                    let data = document.querySelector('#aqi-data').value;
+                    if (data.match(/^[0-9]+$/)){
+                        datas.unshift(data);
+                        render(datas);
+                    }else{
+                        alert('not an number')
+                    }
+                    
+                })
+
+                leftOut.addEventListener('click',() => {
+                    datas.shift();
+                    render(datas);
+                })
+
+                rightIn.addEventListener('click', () => {
+                    let data = document.querySelector('#aqi-data').value;
+                    if (data.match(/^[0-9]+$/)){
+                        datas.push(data);
+                        render(datas);         
+                    }else{
+                        alert('not an number! ');
+                    }          
+                })
+
+                rightOut.addEventListener('click',() => {
+                    datas.pop();
+                    render(datas);
+                })
+            }
+
+            btnHandle();
+        })()
+        // 第二种方法
+        function createNode(tag,className,text){
+            let node = document.createElement(tag);
+            node.className = className;
+            node.innerText = text;
+            return node
+        }
+        function btnHandle2(){
+            let leftIn = document.querySelector('#left-in2');
+            let leftOut = document.querySelector('#left-out2');
+            let rightIn = document.querySelector('#right-in2');
+            let rightOut = document.querySelector('#right-out2');
+            let show = document.querySelector('#queue-data2');
+            
+            leftIn.addEventListener('click',() => {
+                let data = document.querySelector('#aqi-data2').value;
+                if (data.match(/^[0-9]+$/)){
+                    let node = createNode('div','block',data);
+                    show.insertBefore(node,show.firstChild);
+                }else{
+                    alert('Not an Number!');
+                }
+            })
+            leftOut.addEventListener('click',() => {
+               show.removeChild(show.firstChild);
+            })
+            rightIn.addEventListener('click', () => {
+                let data = document.querySelector('#aqi-data2').value;
+                if (data.match(/^[0-9]+$/)){
+                    let node = createNode('div','block',data);
+                    show.appendChild(node);     
+                }else{
+                    alert('Not an Number!');
+                }             
+            })
+            rightOut.addEventListener('click',() => {
+               show.removeChild(show.lastChild);
+            })
+        }
+        btnHandle2()
+        /**
+        * 第二种方法显然比较高效
+        * 因为它每次只处理一个DOM节点
+        * 而第一种方法，需要把所有节点清理掉，然后在全部渲染一遍DOM节点
+        * 数据量不大的时候或许没有区别
+        * 但是数据量大的时候
+        * 可以很明显的看到区别
+        */
+    </script>
+    </body>
+</html>
