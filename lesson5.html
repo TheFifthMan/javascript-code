@@ -7,8 +7,6 @@
                 height:100px;
                 background-color:yellow;
                 position: absolute;
-                
-
             }
             .block{
                 width: 10px;
@@ -25,26 +23,7 @@
         </style>
     </head>
     <body>
-        <!--
-        <div id="test"></div>
-        
-        <script>
-            //animation 简单例子
-            let test = document.getElementById('test');
-            let offset = 0;
-            function move(){
-                test.style.left = offset + "px";
-                offset += 50;
-                if (offset > 1000){
-                    offset = 0;
-                }
-            }
-            //要把函数独立出来，这样每次才会去执行这个函数，重新赋值
-            let timer = setInterval(move,1000)
-
-
-        </script>
-        -->
+       
         <div id="queue1">
             <h3>第一种方式： </h3>
             <input id='aqi-data' type='text' alt='input'/> 
@@ -66,77 +45,22 @@
             <div class="block" style="height: 34px; left: 120px;"></div>
             <div class="block" style="height: 19px; left: 140px;"></div>
         </div>
+        <script src="velocity.min.js"></script>
         <script>
             (function(){
+                var blocks = document.querySelectorAll('.block');
                 
-                function exchange(div1,div2){
-                    //变量设置
-                    let OffsetLeft1 = parseInt(div1.style.left);
-                    let init_left_value1 = OffsetLeft1;
-                    let OffsetTop1 = 0;
-
-                    let OffsetLeft2 = parseInt(div2.style.left);
-                    let init_left_value2 = OffsetLeft2;
-                    let OffsetTop2 = 0;
-
-                    // 设置动画
-                    let timer = setInterval(() => {
-                        
-                        div1.style.backgroundColor="red";
-                        // 向下移动
-                        
-                        if((OffsetTop1 !== parseInt(div1.style.height)) & (OffsetLeft1 !== OffsetLeft2)){
-                            OffsetTop1 += 1 ;
-                            div1.style.top = OffsetTop1 + "px"; 
+                for(let i=0;i<blocks.length;i++){
+                    let new_blocks = document.querySelectorAll('.block');
+                    for(let j=0;j<new_blocks.length;j++){
+                        if (parseInt(blocks[i].style.height) > parseInt(new_blocks[j].style.height)){
+                            console.log(new_blocks[j])
+                            let temp = blocks[i];
+                            Velocity(blocks[i],{top:100},{ duration: i*j+100}).velocity({left: parseInt(blocks[j].style.left)},{ duration: i*j+100}).velocity({top: 0},{ duration: i*j+100});
+                            Velocity(new_blocks[j],{top:100},{ duration: i*j+100}).velocity({left: parseInt(temp.style.left)},{ duration: i*j+100}).velocity({top: 0},{ duration: i*j+100});
                         }
-                        // 向右移动
-                        console.log(OffsetLeft1)
-                        if ((OffsetTop1 === parseInt(div1.style.height)) & OffsetLeft1 !==  init_left_value2){
-                            OffsetLeft1 += 1
-                            div1.style.left = OffsetLeft1 +'px';
-                        }
-                      
-                        // 向上移动
-                        if((OffsetTop1 !== 0 ) & (OffsetLeft1 === init_left_value2)){
-                            div1.style.top = "";
-                        }
-                        let height = parseInt(div2.style.height);
-
-                        if((OffsetTop2 !== height)){
-                            div2.style.top = OffsetTop2 + "px";
-                            OffsetTop2 += 1;
-                        }
-                        if ((OffsetLeft2 !== init_left_value1) & (OffsetTop2 === height)){
-                            OffsetLeft2 -= 1;
-                            div2.style.left = OffsetLeft2 +'px';
-                        }
-                        if((OffsetTop2 !== 0) & OffsetLeft2 === init_left_value1){
-                            div2.style.top = "";
-
-                        }
-                        if ((OffsetLeft1 === init_left_value1) & (OffsetLeft2 === init_left_value1) & (OffsetTop1=== 0) & (OffsetTop2 === 0)){
-                            clearInterval(timer);
-                            div1.style.backgroundColor="";
-                        }
-
-                    },100)
-
-
-
+                    }
                 }
-                let div1 = document.querySelectorAll('.block')[1];
-                let div2 = document.querySelectorAll('.block')[2];
-                let div3 = document.querySelectorAll('.block')[3];
-                let div4 = document.querySelectorAll('.block')[4];
-                let div5 = document.querySelectorAll('.block')[5];
-                let div6 = document.querySelectorAll('.block')[6];
-                let div7 = document.querySelectorAll('.block')[7];
-
-                exchange(div1,div2);
-               
-
-                
-               
             })()
         </script>
     </body>
